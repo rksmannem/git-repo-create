@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+set -x
+
+GIT_USER_NAME="$2"
+GIT_USER_NAME="${GIT_USER_NAME:-rksmannem}"
+
+#get the git repo name from command line arg
+REPO_NAME=$1
+
+
+function usage() {
+	cat <<- EOF
+	   Usage: $(basename $0) <repo-name> <git-user-name>
+	EOF
+	exit 1
+}
+
+
+[[ -z "${REPO_NAME}" ]] && usage
+
+curl -u "${GIT_USER_NAME}" https://api.github.com/user/repos -d "{\"name\": \"${REPO_NAME}\"}" 
+
+
+
